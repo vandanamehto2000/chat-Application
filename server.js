@@ -1,7 +1,7 @@
 const { Socket } = require("dgram");
 const express = require("express");
 const app = express();
-const http = require("http").createServer(app);
+const http = require("http").createServer(app); 
 
 const PORT = process.env.PORT || 8000
 
@@ -28,4 +28,8 @@ io.on("connection", (socket) => {
         // console.log(msg)
         socket.broadcast.emit("message", msg)
     })
+    socket.on("Typing", (arg) => {
+        socket.broadcast.emit("Typing")
+    });
 })
+

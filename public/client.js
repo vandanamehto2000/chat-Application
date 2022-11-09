@@ -3,6 +3,7 @@ const socket = io()
 let name;
 let textarea = document.querySelector("#textarea")
 let messageArea = document.querySelector(".message_area")
+const typingArea =document.getElementById("typeing")
 
 do {
     name = prompt("please enter your name")
@@ -15,6 +16,29 @@ textarea.addEventListener("keyup", (e) => {
 })
 
 
+
+textarea.addEventListener("input", (e) => {
+    console.log("Typing")
+    
+    socket.emit("Typing");
+    
+
+    // socket.emit("Typing", e.target.value);
+    // console.log(data)
+
+})
+
+function c1(){
+    console.log("DFs")
+    typingArea.innerHTML = "Typing..."
+    setTimeout(() => {
+        typingArea.innerHTML = ""
+    }, 1000)
+}
+socket.on("Typing", c1)
+
+
+
 function sendMessage(message) {
     let msg = {
         user: name,
@@ -23,11 +47,11 @@ function sendMessage(message) {
 
     // append
     appendMessage(msg, "outgoing")
-    textarea.value =''
+    textarea.value = ''
     scrollToBottom()
 
     // send to server
-    socket.emit("message",msg)
+    socket.emit("message", msg)
 }
 
 function appendMessage(msg, type) {
@@ -51,7 +75,7 @@ socket.on("message", (msg) => {
     scrollToBottom()
 })
 
-function scrollToBottom(){
+function scrollToBottom() {
     messageArea.scrollTop = messageArea.scrollHeight
 
 }
